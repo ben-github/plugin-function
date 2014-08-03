@@ -22,12 +22,12 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_function extends DokuWiki_Syntax_Plugin {
  
-    function getType(){ return 'substition'; }
+    function getType(){ return 'protected'; }
     function getPType(){ return 'normal'; }
     function getAllowedTypes() { 
-        return array('substition','protected','disabled');
+        return array('formatting','substition','protected','disabled');
     }
-    function getSort(){ return 195; }
+    function getSort(){ return 1; }
 
     function connectTo($mode) {
         $this->Lexer->addSpecialPattern('<function=.*?>',$mode,'plugin_function');
@@ -51,7 +51,7 @@ class syntax_plugin_function extends DokuWiki_Syntax_Plugin {
             case DOKU_LEXER_SPECIAL :
               preg_match("#^<function=(.+)>$#", $data, $matches);
               $func = $matches[1];
-              $a = explode('?', $func);
+              $a = explode('|', $func);
               $func = $a[0];
               if (!empty($a[1])) { parse_str($a[1], $params); }
               else { $params[0] = ''; }
